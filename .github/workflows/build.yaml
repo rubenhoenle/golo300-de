@@ -29,5 +29,8 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
+          platforms:
+            - linux/arm64
+            - linux/amd64
           push: true
           tags: ghcr.io/rubenhoenle/golo300-de:latest
