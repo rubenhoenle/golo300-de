@@ -2,6 +2,9 @@ name: Publish Docker image
 
 on:
   push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
   push_to_registry:
@@ -10,8 +13,6 @@ jobs:
     permissions:
       packages: write
       contents: read
-      attestations: write
-      id-token: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -24,7 +25,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push Docker image
-        id: push
+        id: build-push
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -32,5 +33,5 @@ jobs:
           platforms:
             - linux/arm64
             - linux/amd64
-          push: true
+          push: ${{ github.event_name != 'pull_request' && github.ref_name == 'main' }}
           tags: ghcr.io/rubenhoenle/golo300-de:latest
