@@ -30,8 +30,6 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
-          platforms:
-            - linux/arm64
-            - linux/amd64
+          platforms: linux/amd64,linux/arm64,linux/arm/v7
           push: ${{ github.event_name != 'pull_request' && github.ref_name == 'main' }}
           tags: ghcr.io/rubenhoenle/golo300-de:latest
